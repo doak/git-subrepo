@@ -1461,12 +1461,11 @@ update-gitrepo-file() {
 
   # only update remote and branch if supplied and $update_wanted
   if $newfile || $update_wanted; then
-    if $newfile || [[ $override_remote ]]; then
+    if [[ $override_remote ]]; then
       o "Update remote to $subrepo_remote"
       RUN git config --file="$gitrepo" subrepo.remote "$subrepo_remote"
     fi
-
-    if $newfile || [[ $override_branch ]]; then
+    if [[ $override_branch ]]; then
       o "Update branch to $subrepo_branch"
       RUN git config --file="$gitrepo" subrepo.branch "$subrepo_branch"
     fi
