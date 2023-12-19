@@ -10,11 +10,11 @@ clone-foo-and-bar
 
 (
   cd "$OWNER/foo"
-  git subrepo clone "../../../$UPSTREAM/bar"
-  git subrepo clone "../../../$UPSTREAM/foo" "bar/foo"
+  git subrepo clone "$UPSTREAM/bar"
+  git subrepo clone "$UPSTREAM/foo" "bar/foo"
   mkdir lib
-  git subrepo clone "../../../$UPSTREAM/bar" "lib/bar"
-  git subrepo clone "../../../$UPSTREAM/foo" "lib/bar/foo"
+  git subrepo clone "$UPSTREAM/bar" "lib/bar"
+  git subrepo clone "$UPSTREAM/foo" "lib/bar/foo"
 ) &> /dev/null || die
 
 {
@@ -40,10 +40,7 @@ clone-foo-and-bar
 }
 
 {
-  output=$(
-    cd "$OWNER/foo"
-    git subrepo status --all-recursive
-  )
+  output=$(git subrepo status --ALL)
 
   like "$output" "4 subrepos:" \
     "'status --ALL' intro ok"
