@@ -4,11 +4,16 @@ source test/setup
 
 use Test::More
 
-if ! command -v shellcheck >/dev/null; then
-  plan skip_all "The 'shellcheck' utility is not installed"
-fi
-if [[ ! $(shellcheck --version) =~ 0\.7\.1 ]]; then
-  plan skip_all "This test wants shellcheck version 0.7.1"
+d="[[:digit:]]"
+if [[ $(shellcheck --version) =~ ($d+)\.($d+)\.($d+) ]]; then
+  if [[ ${BASH_REMATCH[1]} -eq 0 ]]; then
+    if [[ ${BASH_REMATCH[2]} -eq 7 ]] && [[ ${BASH_REMATCH[3]} -lt 1 ]] ||
+       [[ ${BASH_REMATCH[2]} -lt 7 ]]; then
+      plan skip_all "This test requires at least shellcheck version 0.7.1"
+    fi
+  fi
+else
+  plan skip_all "The 'shellcheck' utility is not installed or version can't be detected."
 fi
 
 IFS=$'\n' read -d '' -r -a shell_files <<< "$(
