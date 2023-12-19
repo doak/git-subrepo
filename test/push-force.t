@@ -33,9 +33,8 @@ test-exists \
 
 # Pull here will actually merge the old master with the new one
 (
-  set +x
   cd "$OWNER/bar"
-  git pull
+  git pull --no-rebase
 ) &> /dev/null || die
 
 test-exists \
